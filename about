@@ -8,4 +8,6 @@ git init
 cria .gitignore -> node_modules
 git add .
 git commit -m "first commit"
+git remote add origin https://github.com/fabiomeendes/node-rest-shop.git
+git push -u origin master
 
