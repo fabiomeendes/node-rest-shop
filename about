@@ -1,0 +1,11 @@
+node-rest-shop
+A Node.js RESTful API Tutorial Project (Build a simple shop API)
+
+npm init
+npm i --save express
+
+git init
+cria .gitignore -> node_modules
+git add .
+git commit -m "first commit"
+
