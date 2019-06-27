@@ -19,3 +19,5 @@ now -> npm start
 npm i --save morgan
 
 npm i --save body-parser
+
+npm i --save mongoose
