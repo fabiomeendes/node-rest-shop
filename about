@@ -17,3 +17,5 @@ before -> node server.js
 now -> npm start
 
 npm i --save morgan
+
+npm i --save body-parser
