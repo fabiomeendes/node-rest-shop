@@ -12,3 +12,6 @@ git remote add origin https://github.com/fabiomeendes/node-rest-shop.git
 git push -u origin master
 
 npm i --save-dev nodemon
+on script -> "start": "nodemon server.js"
+before -> node server.js
+now -> npm start
