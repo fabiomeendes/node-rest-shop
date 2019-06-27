@@ -15,3 +15,5 @@ npm i --save-dev nodemon
 on script -> "start": "nodemon server.js"
 before -> node server.js
 now -> npm start
+
+npm i --save morgan
