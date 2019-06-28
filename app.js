@@ -9,6 +9,8 @@ const orderRoutes = require('./api/routes/orders');
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_ATLAS_USER}:${process.env.MONGO_ATLAS_PASS}@node-rest-shop-i4p7x.mongodb.net/test?retryWrites=true&w=majority`);
 
+mongoose.Promise = global.Promise; // DeprecationWarning
+
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
