@@ -7,9 +7,8 @@ const mongoose = require('mongoose');
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_ATLAS_USER}:${process.env.MONGO_ATLAS_PASS}@node-rest-shop-i4p7x.mongodb.net/test?retryWrites=true&w=majority`);
-
-mongoose.Promise = global.Promise; // DeprecationWarning
+mongoose.connect(`mongodb+srv://${process.env.MONGO_ATLAS_USER}:${process.env.MONGO_ATLAS_PASS}@node-rest-shop-i4p7x.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true });
+// {useNewUrlParser: true} for remove deprecation warning
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
