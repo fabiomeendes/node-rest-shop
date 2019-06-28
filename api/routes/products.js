@@ -1,48 +1,49 @@
+/* eslint-disable no-underscore-dangle */
 const express = require('express');
+
 const router = express.Router();
 const mongoose = require('mongoose');
 
 const Product = require('../models/products');
-const localUrl = 'http://localhost:3000/products/'
 
-router.get('/', (req, res, next) => {
+const localUrl = 'http://localhost:3000/products/';
+
+router.get('/', (req, res) => {
   Product
     .find()
     .select('-__v') // or ('_id name price')
     .exec()
-    .then(docs => {
+    .then((docs) => {
       const response = {
         count: docs.length,
-        products: docs.map(x => {
-          return {
-            id: x._id,
-            name: x.name,
-            price: x.price,
-            request: {
-              type: 'GET',
-              url: `${localUrl}${x._id}`,
-            }
-          };
-        })
+        products: docs.map(x => ({
+          id: x._id,
+          name: x.name,
+          price: x.price,
+          request: {
+            type: 'GET',
+            url: `${localUrl}${x._id}`,
+          },
+        })),
       };
       res.status(200).json(response);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({
-        error: err
+        error: err,
       });
     });
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', (req, res) => {
   const product = new Product({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
     price: req.body.price,
-  })
+  });
   product
     .save()
-    .then(result => {
+    .then((result) => {
       res.status(201).json({
         message: 'Created product successfully',
         createdProduct: {
@@ -52,23 +53,23 @@ router.post('/', (req, res, next) => {
           request: {
             type: 'GET',
             url: `${localUrl}${result._id}`,
-          }
+          },
         },
       });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({
         error: err,
-      })
+      });
     });
 });
 
-router.get('/:productId', (req, res, next) => { 
+router.get('/:productId', (req, res) => {
   Product
     .findById(req.params.productId)
     .select('-__v')
     .exec()
-    .then(doc => {
+    .then((doc) => {
       if (doc) {
         res.status(200).json({
           id: doc._id,
@@ -78,60 +79,60 @@ router.get('/:productId', (req, res, next) => {
             type: 'GET',
             description: 'Get all products',
             url: `${localUrl}`,
-          }
+          },
         });
       } else {
         res.status(404).json({
           message: 'No valid entry found for provided ID',
         });
-      }      
+      }
     })
-    .catch(err => {
-      res.status(500).json({ 
+    .catch((err) => {
+      res.status(500).json({
         error: err,
       });
     });
 });
 
-router.patch('/:productId', (req, res, next) => {
+router.patch('/:productId', (req, res) => {
   Product.update({ _id: req.params.productId }, req.body)
     .exec()
-    .then(result => {
+    .then(() => {
       res.status(200).json({
-        message: 'Product updated',
+        message: 'Product updated successfully',
         request: {
           type: 'GET',
-          url: `${localUrl}${req.params.productId}`
-        }
+          url: `${localUrl}${req.params.productId}`,
+        },
       });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({
-        error: err
+        error: err,
       });
-    });    
+    });
 });
 
-router.delete('/:productId', (req, res, next) => {
+router.delete('/:productId', (req, res) => {
   Product
     .findByIdAndDelete(req.params.productId)
     .exec()
-    .then(result => {
+    .then(() => {
       res.status(200).json({
-        message: 'Product deleted',
+        message: 'Product deleted successfully',
         request: {
           type: 'POST',
           url: `${localUrl}`,
           data: {
             name: 'String',
             price: 'Number',
-          }
-        }
+          },
+        },
       });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({
-        error: err
+        error: err,
       });
     });
 });
