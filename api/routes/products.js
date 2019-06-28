@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-const Product = require('../models/products');
+const Product = require('../models/product');
 
 const localUrl = 'http://localhost:3000/products/';
 
