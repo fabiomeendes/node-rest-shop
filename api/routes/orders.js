@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
   Order
     .find()
     .select('-__v')
+    .populate('product', 'name')
     .exec()
     .then((docs) => {
       res.status(200).json({
@@ -74,6 +75,8 @@ router.post('/', (req, res) => {
 
 router.get('/:orderId', (req, res) => {
   Order.findById(req.params.orderId)
+    .select('-__v')
+    .populate('product', '-__v')
     .exec()
     .then((order) => {
       if (!order) {
