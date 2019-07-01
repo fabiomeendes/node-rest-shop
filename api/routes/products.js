@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
       const response = {
         count: docs.length,
         products: docs.map(x => ({
-          id: x._id,
+          _id: x._id,
           name: x.name,
           price: x.price,
           request: {
@@ -47,7 +47,7 @@ router.post('/', (req, res) => {
       res.status(201).json({
         message: 'Created product successfully',
         createdProduct: {
-          id: result._id,
+          _id: result._id,
           name: result.name,
           price: result.price,
           request: {
@@ -72,7 +72,7 @@ router.get('/:productId', (req, res) => {
     .then((doc) => {
       if (doc) {
         res.status(200).json({
-          id: doc._id,
+          _id: doc._id,
           name: doc.name,
           price: doc.price,
           request: {

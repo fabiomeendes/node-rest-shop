@@ -18,9 +18,9 @@ router.get('/', (req, res) => {
       res.status(200).json({
         count: docs.length,
         orders: docs.map(x => ({
-          id: x._id,
-          product: x.product,
+          _id: x._id,
           quantity: x.quantity,
+          product: x.product,
           request: {
             type: 'GET',
             url: `${localUrl}${x._id}`,
@@ -54,7 +54,7 @@ router.post('/', (req, res) => {
       res.status(201).json({
         message: 'Order created successfully',
         createdOrder: {
-          id: result._id,
+          _id: result._id,
           product: result.product,
           quantity: result.quantity,
         },
@@ -84,8 +84,11 @@ router.get('/:orderId', (req, res) => {
           message: 'Order not found',
         });
       }
-      res.status(200).json({
-        order,
+      return res.status(200).json({
+        _id: order._id,
+        quantity: order.quantity,
+        product: order.product,
+        productName: order.product.name, // test
         request: {
           type: 'GET',
           url: `${localUrl}`,
