@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
         count: docs.length,
         orders: docs.map(x => ({
           id: x._id,
-          product: x.productId,
+          product: x.product,
           quantity: x.quantity,
           request: {
             type: 'GET',
