@@ -3,7 +3,7 @@ const express = require('express');
 
 const router = express.Router();
 const mongoose = require('mongoose');
-
+const upload = require('../helpers/image');
 const Product = require('../models/product');
 
 const localUrl = 'http://localhost:3000/products/';
@@ -20,6 +20,7 @@ router.get('/', (req, res) => {
           _id: x._id,
           name: x.name,
           price: x.price,
+          productImage: x.productImage,
           request: {
             type: 'GET',
             url: `${localUrl}${x._id}`,
@@ -35,11 +36,12 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', upload.single('productImage'), (req, res) => {
   const product = new Product({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
     price: req.body.price,
+    productImage: req.file.path,
   });
   product
     .save()
@@ -50,6 +52,7 @@ router.post('/', (req, res) => {
           _id: result._id,
           name: result.name,
           price: result.price,
+          productImage: result.productImage,
           request: {
             type: 'GET',
             url: `${localUrl}${result._id}`,
@@ -75,6 +78,8 @@ router.get('/:productId', (req, res) => {
           _id: doc._id,
           name: doc.name,
           price: doc.price,
+          productImage: doc.productImage,
+          seeTheImage: `http://localhost:3000/${doc.productImage}`,
           request: {
             type: 'GET',
             description: 'Get all products',
