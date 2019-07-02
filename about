@@ -34,3 +34,7 @@ force errors, node, airbnb
       "windows"
   ]
 }
+
+npm i --save multer
+
+npm i moment
