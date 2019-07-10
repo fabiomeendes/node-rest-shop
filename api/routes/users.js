@@ -12,7 +12,7 @@ router.post('/signup', (req, res) => {
   User.findOne({ email: req.body.email })
     .exec()
     .then((existUser) => {
-      if (existUser.length >= 1) {
+      if (existUser) {
         return res.status(409).json({
           message: 'Mail exists',
         });
@@ -47,12 +47,12 @@ router.post('/login', (req, res) => {
   User.findOne({ email: req.body.email })
     .exec()
     .then((user) => {
-      if (user.length < 1) {
+      if (!user) {
         return res.status(401).json({
           message: 'Auth failed!',
         });
       }
-      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+      bcrypt.compare(req.body.password, user.password, (err, result) => {
         if (err) {
           return res.status(401).json({
             message: 'Auth failed',
@@ -60,8 +60,8 @@ router.post('/login', (req, res) => {
         }
         if (result) {
           const token = jwt.sign({
-            _id: user[0]._id,
-            email: user[0].email,
+            _id: user._id,
+            email: user.email,
           }, process.env.JWT_KEY,
           {
             expiresIn: '1h',
