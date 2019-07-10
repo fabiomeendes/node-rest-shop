@@ -38,3 +38,5 @@ force errors, node, airbnb
 npm i --save multer
 
 npm i moment
+
+npm i bcrypt --save
