@@ -40,3 +40,5 @@ npm i --save multer
 npm i moment
 
 npm i bcrypt --save
+
+npm i jsonwebtoken --save
