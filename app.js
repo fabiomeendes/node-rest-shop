@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 const userRoutes = require('./api/routes/users');
+// const checkAuth = require('./api/middleware/check-auth');
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_ATLAS_USER}:${process.env.MONGO_ATLAS_PASS}@node-rest-shop-i4p7x.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true });
 // {useNewUrlParser: true} for remove deprecation warning
@@ -16,6 +17,8 @@ app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// app.use(checkAuth); if I want to protect all routes
 
 // eslint-disable-next-line consistent-return
 app.use((req, res, next) => {
