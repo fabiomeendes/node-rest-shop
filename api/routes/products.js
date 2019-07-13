@@ -5,6 +5,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const upload = require('../helpers/image');
 const Product = require('../models/product');
+const checkAuth = require('../middleware/check-auth');
 
 const localUrl = 'http://localhost:3000/products/';
 
@@ -36,7 +37,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/', upload.single('productImage'), (req, res) => {
+router.post('/', checkAuth, upload.single('productImage'), (req, res) => {
   const product = new Product({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
@@ -99,7 +100,7 @@ router.get('/:productId', (req, res) => {
     });
 });
 
-router.patch('/:productId', (req, res) => {
+router.patch('/:productId', checkAuth, (req, res) => {
   Product.update({ _id: req.params.productId }, req.body)
     .exec()
     .then(() => {
@@ -118,7 +119,7 @@ router.patch('/:productId', (req, res) => {
     });
 });
 
-router.delete('/:productId', (req, res) => {
+router.delete('/:productId', checkAuth, (req, res) => {
   Product
     .findByIdAndDelete(req.params.productId)
     .exec()

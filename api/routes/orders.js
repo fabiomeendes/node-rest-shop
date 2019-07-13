@@ -5,10 +5,11 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Order = require('../models/order');
 const Product = require('../models/product');
+const checkAuth = require('../middleware/check-auth');
 
 const localUrl = 'http://localhost:3000/orders/';
 
-router.get('/', (req, res) => {
+router.get('/', checkAuth, (req, res) => {
   Order
     .find()
     .select('-__v')
@@ -35,7 +36,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', checkAuth, (req, res) => {
   Product.findById(req.body.productId)
     .then((product) => {
       if (!product) {
@@ -73,7 +74,7 @@ router.post('/', (req, res) => {
 });
 
 
-router.get('/:orderId', (req, res) => {
+router.get('/:orderId', checkAuth, (req, res) => {
   Order.findById(req.params.orderId)
     .select('-__v')
     .populate('product', '-__v')
@@ -102,7 +103,7 @@ router.get('/:orderId', (req, res) => {
     });
 });
 
-router.delete('/:orderId', (req, res) => {
+router.delete('/:orderId', checkAuth, (req, res) => {
   Order.findByIdAndDelete(req.params.orderId)
     .exec()
     .then(() => {
